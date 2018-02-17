@@ -33,8 +33,21 @@ You can use [ionicons.com](http://ionicons.com) to easily find the icon you want
 
     <i class="icon ion-home"></i>
 
+## NEW: Facet Digital Docker-Based Build Instructions
 
-## Build Instructions
+1) Clone this repo and `cd` into it.
+
+2) Build the docker image with: `./run setup`
+
+3) Add an SVG file to the `src` dir. Remove one, modify one, etc.
+
+4) Rebuild the font with: `./run build`
+
+5) See what files were modifed with `git status` -- you will have new font files, new CSS, etc.
+
+6) Use em in your project.
+
+## Original Build Instructions
 
 This repo already comes with all the files built and ready to go, but can also build the fonts from the source. Requires Python, FontForge and Sass:
 
