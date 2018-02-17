@@ -1,0 +1,57 @@
+#!/usr/bin/env bash
+
+DOCKER_IMAGE_NAME="ionicons"
+DOCKER_BUILD_CMD="docker build . -t $DOCKER_IMAGE_NAME"
+DOCKER_RUN_CMD="docker run -it --rm -v $(pwd):/app:delegated $DOCKER_IMAGE_NAME"
+
+if [[ $# -lt 1 ]]; then
+  echo
+  echo "Runs commands for this project in a Docker container ($DOCKER_IMAGE_NAME)."
+  echo
+  echo "USAGE: ./run [COMMAND]"
+  echo
+  echo "Commands:"
+  echo "  setup - Setup the env by building the necessary Docker container."
+  echo
+  echo "  build - Build the font."
+  echo
+  echo "  exec  - Run a one-off command in a container."
+  echo
+  echo "  bash  - Run bash in a container."
+  echo
+  echo "######################################################################"
+  echo "NOTE: This script requires that you have Docker installed."
+  echo "######################################################################"
+  echo
+  exit
+fi
+
+while [[ $# -gt 0 ]]; do
+  param="$1" 
+  case "$param" in
+    setup)
+    echo "Building the $DOCKER_IMAGE_NAME Docker container..."
+    $DOCKER_BUILD_CMD
+    ;;
+
+    build)
+    $DOCKER_RUN_CMD python ./builder/generate.py
+    ;;
+
+    exec)
+    shift
+    $DOCKER_RUN_CMD $@
+    break
+    ;;
+
+    bash)
+    $DOCKER_RUN_CMD bash
+    ;;
+
+    *)
+    echo "Unknown command: $param"
+    break
+    ;;
+  esac
+  shift
+done
